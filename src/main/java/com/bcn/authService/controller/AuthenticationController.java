@@ -25,6 +25,16 @@ public class AuthenticationController {
             @RequestBody User request
     ) {
 
+//        System.out.println("submited user data from controller  : \nfirstname " + request.getFirstName() + "\nlastname " + request.getLastName() + "\n" +
+//                "username " + request.getUsername() + "\npassword " + request.getPassword() + "\nrole " + request.getRole() + "\nnic " + request.getNic()
+//                + "\ncontact no " + request.getContactNo() + "\nblood type " + request.getBloodType()
+//                + "\nno " + request.getAddressNo() + "\nstreet " + request.getStreet()
+//                + "\ncity " + request.getCity() + "\nbirthday " + request.getBirthday()
+//                + "\norganization type " + request.getOrganizationType()
+//                + "\norganization " + request.getOrganization()
+//        );
+
+
         return ResponseEntity.ok(authService.register(request));
     }
 
