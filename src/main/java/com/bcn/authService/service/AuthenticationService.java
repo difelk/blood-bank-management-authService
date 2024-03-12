@@ -1,6 +1,7 @@
 package com.bcn.authService.service;
 
 import com.bcn.authService.data.*;
+import com.bcn.authService.util.DateConverter;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.crypto.password.PasswordEncoder;
@@ -37,25 +38,29 @@ public class AuthenticationService {
             return new AuthenticationResponse(null, "User already exist");
         }
 
-        System.out.println("pass the first db interaction");
-
         User user = new User();
         user.setFirstName(request.getFirstName());
         user.setLastName(request.getLastName());
         user.setUsername(request.getUsername());
+        user.setNic(request.getNic());
+        user.setContactNo(request.getContactNo());
+        user.setBloodType(request.getBloodType());
+        user.setAddressNo(request.getAddressNo());
+        user.setStreet(request.getStreet());
+        user.setCity(request.getCity());
+        user.setBirthday(DateConverter.convertBirthday(request.getBirthday().toString()));
+        user.setOrganizationType(request.getOrganizationType());
+        user.setOrganization(request.getOrganization());
         user.setPassword(passwordEncoder.encode(request.getPassword()));
 
 
         user.setRole(request.getRole());
 
-        System.out.println("submited user data from service  : \nfirstname " + user.getFirstName() + "\nlastname " + user.getLastName() + "\n" +
-                "username " + user.getUsername() + "\npassword " + user.getPassword() + "\nrole " + user.getRole() );
 
         user = repository.save(user);
 
         String jwt = jwtService.generateToken(user);
 
-//        saveUserToken(jwt, user);
 
         return new AuthenticationResponse(jwt, "User registration was successful");
 

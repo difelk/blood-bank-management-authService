@@ -1,0 +1,25 @@
+create database bcnuser;
+use bcnuser;
+
+CREATE TABLE users (
+  id INT NOT NULL PRIMARY KEY,
+  firstname VARCHAR(50) NOT NULL,
+  lastname VARCHAR(50) NOT NULL,
+  username VARCHAR(30) UNIQUE NOT NULL,
+  password VARCHAR(255) NOT NULL,
+  role VARCHAR(20) NOT NULL
+);
+
+ALTER TABLE users
+ADD COLUMN nic VARCHAR(12) AFTER role,
+ADD COLUMN contact_no VARCHAR(10) AFTER nic,
+ADD COLUMN blood_type VARCHAR(5) AFTER contact_no,
+ADD COLUMN no VARCHAR(10) AFTER blood_type,
+ADD COLUMN street VARCHAR(50) AFTER no,
+ADD COLUMN city VARCHAR(50) AFTER street,
+ADD COLUMN birthday DATE AFTER city,
+ADD COLUMN organizationType VARCHAR(255) AFTER temp_pw,
+ADD COLUMN organization VARCHAR(255) AFTER organizationType;
+
+
+select * from users

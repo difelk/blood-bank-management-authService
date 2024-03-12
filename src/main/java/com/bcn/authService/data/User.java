@@ -5,6 +5,7 @@ import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
+import java.sql.Date;
 import java.util.Collection;
 import java.util.List;
 import java.util.Map;
@@ -101,6 +102,108 @@ public class User implements UserDetails {
     @Column(name = "password")
     private String password;
 
+    public String getNic() {
+        return nic;
+    }
+
+    public void setNic(String nic) {
+        this.nic = nic;
+    }
+
+    public String getContactNo() {
+        return contactNo;
+    }
+
+    public void setContactNo(String contactNo) {
+        this.contactNo = contactNo;
+    }
+
+    public String getBloodType() {
+        return bloodType;
+    }
+
+    public void setBloodType(String bloodType) {
+        this.bloodType = bloodType;
+    }
+
+    public String getAddressNo() {
+        return addressNo;
+    }
+
+    public void setAddressNo(String addressNo) {
+        this.addressNo = addressNo;
+    }
+
+    public String getStreet() {
+        return street;
+    }
+
+    public void setStreet(String street) {
+        this.street = street;
+    }
+
+    public String getCity() {
+        return city;
+    }
+
+    public void setCity(String city) {
+        this.city = city;
+    }
+
+    public Date getBirthday() {
+        return birthday;
+    }
+
+    public void setBirthday(Date birthday) {
+        this.birthday = birthday;
+    }
+
+
+    public String getOrganization() {
+        return organization;
+    }
+
+    public void setOrganization(String organization) {
+        this.organization = organization;
+    }
+
+    public String getOrganizationType() {
+        return organizationType;
+    }
+
+    public void setOrganizationType(String organizationType) {
+        this.organizationType = organizationType;
+    }
+
     @Column(name = "role")
     private String role;
+
+    @Column(name = "nic")
+    private String nic;
+
+    @Column(name = "contact_no")
+    private String contactNo;
+
+    @Column(name = "blood_type")
+    private String bloodType;
+
+    @Column(name = "no")
+    private String addressNo;
+
+    @Column(name = "street")
+    private String street;
+
+    @Column(name = "city")
+    private String city;
+
+    @Column(name = "birthday")
+    private Date birthday;
+
+
+    @Column(name = "organization")
+    private String organization;
+
+    @Column(name = "organization_type")
+    private String organizationType;
 }
+
