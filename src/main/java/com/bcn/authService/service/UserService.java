@@ -3,7 +3,6 @@ import com.bcn.authService.data.User;
 import com.bcn.authService.data.UserRepository;
 import com.bcn.authService.data.UserResponse;
 import jakarta.transaction.Transactional;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -27,6 +26,41 @@ public class UserService {
         }
         return null;
     }
+
+    public UserResponse updateUser(User data){
+        UserResponse userResponse = new UserResponse();
+        User existingUser = findUserByNic(data.getNic());
+        try {
+            if (existingUser != null) {
+                existingUser.setFirstName(data.getFirstName());
+                existingUser.setLastName(data.getLastName());
+                existingUser.setNic(data.getNic());
+                existingUser.setUsername(data.getUsername());
+                existingUser.setBirthday(data.getBirthday());
+                existingUser.setBloodType(data.getBloodType());
+                existingUser.setContactNo(data.getContactNo());
+                existingUser.setAddressNo(data.getAddressNo());
+                existingUser.setStreet(data.getStreet());
+                existingUser.setCity(data.getCity());
+                existingUser.setOrganization(data.getOrganization());
+                existingUser.setOrganizationType(data.getOrganizationType());
+                existingUser.setPassword(data.getPassword());
+                existingUser.setRole(data.getRole());
+
+                userRepository.save(existingUser);
+                userResponse.setMessage("user update successful");
+                userResponse.setStatus(200);
+            } else {
+                userResponse.setMessage("user does not exist");
+                userResponse.setStatus(404);
+            }
+        } catch (Exception e){
+            userResponse.setMessage("ERROR: " + e.getMessage());
+            userResponse.setStatus(500);
+        }
+        return userResponse;
+    }
+
 
     public List<User> getAllUsers() {
         return userRepository.findAll();
