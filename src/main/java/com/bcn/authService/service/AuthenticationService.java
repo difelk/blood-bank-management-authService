@@ -15,25 +15,21 @@ public class AuthenticationService {
     private final PasswordEncoder passwordEncoder;
     private final JwtService jwtService;
 
-//    private final TokenRepository;
 
     private final AuthenticationManager authenticationManager;
 
     public AuthenticationService(UserRepository repository,
                                  PasswordEncoder passwordEncoder,
                                  JwtService jwtService,
-//                                 TokenRepository tokenRepository,
                                  AuthenticationManager authenticationManager) {
         this.repository = repository;
         this.passwordEncoder = passwordEncoder;
         this.jwtService = jwtService;
-//        this.tokenRepository = tokenRepository;
         this.authenticationManager = authenticationManager;
     }
 
     public AuthenticationResponse register(User request) {
 
-        System.out.println("inside of register method of service");
         if(repository.findByUsername(request.getUsername()).isPresent()) {
             return new AuthenticationResponse(null, "User already exist");
         }
@@ -77,29 +73,13 @@ public class AuthenticationService {
         User user = repository.findByUsername(request.getUsername()).orElseThrow();
         String jwt = jwtService.generateToken(user);
 
-//        revokeAllTokenByUser(user);
-//        saveUserToken(jwt, user);
 
         return new AuthenticationResponse(jwt, "User login was successful");
 
     }
-//    private void revokeAllTokenByUser(User user) {
-//        List<Token> validTokens = tokenRepository.findAllTokensByUser(user.getId());
-//        if(validTokens.isEmpty()) {
-//            return;
-//        }
-//
-//        validTokens.forEach(t-> {
-//            t.setLoggedOut(true);
-//        });
-//
-//        tokenRepository.saveAll(validTokens);
-//    }
-//    private void saveUserToken(String jwt, User user) {
-//        Token token = new Token();
-//        token.setToken(jwt);
-//        token.setLoggedOut(false);
-//        token.setUser(user);
-//        tokenRepository.save(token);
-//    }
+
+    public boolean isValidToken(String token) {
+        System.out.println("isValidToken  in auth service: " + token);
+        return jwtService.isValidToken(token);
+    }
 }
