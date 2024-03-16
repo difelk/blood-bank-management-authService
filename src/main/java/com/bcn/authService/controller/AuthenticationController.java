@@ -30,8 +30,6 @@ public class AuthenticationController {
     public ResponseEntity<AuthenticationResponse> login(
             @RequestBody User request
     ) {
-        System.out.println("recived data from frontend");
-        System.out.println("data list - " + request.getUsername() + "\n password: " + request.getPassword());
         return ResponseEntity.ok(authService.authenticate(request));
     }
 
