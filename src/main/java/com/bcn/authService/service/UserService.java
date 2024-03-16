@@ -19,12 +19,18 @@ public class UserService {
 
 
     public User findUserByNic(String nic){
-        Optional<User> user = userRepository.findUserByNic(nic);
-        System.out.println("user - " + user);
-        if(user.isPresent()) {
-            return user.get();
+        try {
+            Optional<User> user = userRepository.findUserByNic(nic);
+            System.out.println("user - " + user);
+            if(user.isPresent()) {
+                return user.get();
+            }
+            return null;
+        } catch (Exception e) {
+            System.out.println("Error finding user by NIC: " + e.getMessage());
+            return null;
         }
-        return null;
+
     }
 
     public UserResponse updateUser(User data){
@@ -63,7 +69,12 @@ public class UserService {
 
 
     public List<User> getAllUsers() {
-        return userRepository.findAll();
+        try {
+            return userRepository.findAll();
+        } catch (Exception e) {
+            System.out.println("Failed to fetch all users: " + e.getMessage());
+            return null;
+        }
     }
 
     @Transactional
@@ -71,17 +82,22 @@ public class UserService {
         UserResponse userResponse = new UserResponse();
         User user = findUserByNic(nic);
         if (user != null) {
-            userRepository.deleteUserByNic(nic);
-            User deletedUser = findUserByNic(nic);
-            if (deletedUser == null) {
-                userResponse.setMessage("user delete successful");
-                userResponse.setStatus(200);
-            } else {
-                userResponse.setMessage("something went wrong");
+            try {
+                userRepository.deleteUserByNic(nic);
+                User deletedUser = findUserByNic(nic);
+                if (deletedUser == null) {
+                    userResponse.setMessage("User delete successful");
+                    userResponse.setStatus(200);
+                } else {
+                    userResponse.setMessage("Something went wrong");
+                    userResponse.setStatus(500);
+                }
+            } catch (Exception e) {
+                userResponse.setMessage("Failed to delete user: " + e.getMessage());
                 userResponse.setStatus(500);
             }
         } else {
-            userResponse.setMessage("user does not exist");
+            userResponse.setMessage("User does not exist");
             userResponse.setStatus(404);
         }
         return userResponse;
