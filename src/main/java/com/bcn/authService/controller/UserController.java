@@ -1,6 +1,7 @@
 package com.bcn.authService.controller;
 
 import com.bcn.authService.data.AuthenticationResponse;
+import com.bcn.authService.data.Password;
 import com.bcn.authService.data.User;
 import com.bcn.authService.data.UserResponse;
 import com.bcn.authService.service.UserService;
@@ -30,6 +31,12 @@ public class UserController {
     @PreAuthorize("hasAuthority('ROLE_ADMIN')")
     public ResponseEntity<UserResponse> updateUser(@RequestBody User data){
         return  ResponseEntity.ok(userService.updateUser(data));
+    }
+
+    @PutMapping("/password")
+    @PreAuthorize("hasAuthority('ROLE_USER')")
+    public ResponseEntity<UserResponse> updatePassword(@RequestBody Password request){
+        return ResponseEntity.ok(userService.updatePassword(request));
     }
 
     @DeleteMapping("/{nic}")

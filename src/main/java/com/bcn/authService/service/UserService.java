@@ -1,8 +1,12 @@
 package com.bcn.authService.service;
+import com.bcn.authService.data.Password;
 import com.bcn.authService.data.User;
 import com.bcn.authService.data.UserRepository;
 import com.bcn.authService.data.UserResponse;
 import jakarta.transaction.Transactional;
+import org.springframework.security.core.userdetails.UsernameNotFoundException;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -60,13 +64,35 @@ public class UserService {
                 userResponse.setMessage("user does not exist");
                 userResponse.setStatus(404);
             }
-        } catch (Exception e){
+        } catch(Exception e){
             userResponse.setMessage("ERROR: " + e.getMessage());
             userResponse.setStatus(500);
         }
         return userResponse;
     }
 
+
+    public UserResponse updatePassword(Password request){
+        PasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
+        System.out.println("inside of service method");
+        UserResponse userResponse = new UserResponse();
+        System.out.println("request.password = " + request.getNewPassword());
+        Password password = new Password();
+        password.setNic(request.getNic());
+        password.setNewPassword(passwordEncoder.encode(request.getNewPassword()));
+        try{
+            userRepository.resetPassword(password.getNic(), password.getNewPassword());
+            userResponse.setMessage("password reset Successful");
+            userResponse.setStatus(200);
+        }catch (Exception e){
+            userResponse.setMessage("password reset Failed, with " + e.getMessage());
+            userResponse.setStatus(200);
+        }
+
+        return userResponse;
+
+
+    }
 
     public List<User> getAllUsers() {
         try {
