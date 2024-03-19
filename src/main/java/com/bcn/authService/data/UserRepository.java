@@ -15,6 +15,8 @@ public interface UserRepository extends JpaRepository<User, Long> {
     @Query("select u from User u where u.nic =?1")
     Optional<User> findUserByNic(@Param("nic") String nic);
 
+    @Query("select u from User u where u.username =?1")
+    Optional<User> findUserByUsername(@Param("username") String username);
 
     @Modifying
     @Query("delete from User d where d.nic = :nic")
