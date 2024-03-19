@@ -37,6 +37,20 @@ public class UserService {
 
     }
 
+    public User getUserByUsername(String username) {
+        try {
+            Optional<User> user = userRepository.findUserByUsername(username);
+            System.out.println("user - " + user);
+            if(user.isPresent()) {
+                return user.get();
+            }
+            return null;
+        } catch (Exception e) {
+            System.out.println("Error finding user by NIC: " + e.getMessage());
+            return null;
+        }
+    }
+
     public UserResponse updateUser(User data){
         UserResponse userResponse = new UserResponse();
         User existingUser = findUserByNic(data.getNic());

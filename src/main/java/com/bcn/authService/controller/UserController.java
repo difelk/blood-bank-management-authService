@@ -27,6 +27,19 @@ public class UserController {
     return userService.getAllUsers();
     }
 
+
+    @GetMapping("/nic/{nic}")
+    @PreAuthorize("hasAuthority('ROLE_ADMIN')")
+    public User getAllUsersByNic(@PathVariable String nic){
+        return userService.findUserByNic(nic);
+    }
+
+    @GetMapping("/username/{username}")
+    @PreAuthorize("hasAuthority('ROLE_ADMIN')")
+    public User getUsersByUserName(@PathVariable String username){
+        return userService.getUserByUsername(username);
+    }
+
     @PutMapping("/")
     @PreAuthorize("hasAuthority('ROLE_ADMIN')")
     public ResponseEntity<UserResponse> updateUser(@RequestBody User data){
